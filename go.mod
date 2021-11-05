@@ -1,4 +1,4 @@
-module firehose_databroker.go
+module github.com/mgharbia/firehose_broker
 
 go 1.17
 
