@@ -6,7 +6,6 @@ import (
 	"os"
 	"regexp"
 	"runtime"
-	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -24,7 +23,7 @@ func getCallingFunction(skip int) string {
 	return ""
 }
 
-func FirehosePutRecord(data) {
+func FirehosePutRecord(data string) {
 	log.Println("FirehosePutRecord Start")
 	streamName := os.Getenv("FIREHOSE_DELIVERY_STREAM")
 	region := os.Getenv("REGION")
@@ -35,15 +34,14 @@ func FirehosePutRecord(data) {
 
 	recordInput := &firehose.PutRecordInput{}
 	recordInput = recordInput.SetDeliveryStreamName(streamName)
-	timestamp := time.Now().Format("2006-01-02 15:04:05.999999")
-	caller := getCallingFunction(2)
+
 
 
 	// remove whitespaces occurring twice or more
 	m1 := regexp.MustCompile(`\s{2,}`)
-	data = m1.ReplaceAllString(data, "")
+	processedData := m1.ReplaceAllString(data, "")
 
-	dataBytes := []byte(data)
+	dataBytes := []byte(processedData)
 	dataBytes = append(dataBytes, uint8('\n'))  // add new line
 	record := &firehose.Record{Data: dataBytes}
 	recordInput = recordInput.SetRecord(record)
