@@ -1,3 +1,3 @@
-module firehose_databroker.go
+module databroker/firehose_databroker.go
 
 go 1.17
