@@ -1,4 +1,4 @@
-package databroker
+package firehose_databroker
 
 import (
 	"fmt"
@@ -23,7 +23,7 @@ func getCallingFunction(skip int) string {
 	return ""
 }
 
-func FirehosePutRecord(data string) {
+func PutRecord(data string) {
 	log.Println("FirehosePutRecord Start")
 	streamName := os.Getenv("FIREHOSE_DELIVERY_STREAM")
 	region := os.Getenv("REGION")
